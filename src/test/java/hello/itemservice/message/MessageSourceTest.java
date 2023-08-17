@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.MessageSource;
 
+import java.util.Locale;
+
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
@@ -37,5 +39,18 @@ class MessageSourceTest {
     void argumentMessage() {
         String result = ms.getMessage("hello.name", new Object[]{"Spring"}, null);
         assertThat(result).isEqualTo("안녕 Spring");
+    }
+
+    // 국제화 파일 선택1
+    @Test
+    void defaultLang() {
+        assertThat(ms.getMessage("hello", null, null)).isEqualTo("안녕");
+        assertThat(ms.getMessage("hello", null, Locale.KOREA)).isEqualTo("안녕");
+    }
+
+    // 국제화 파일 선택2
+    @Test
+    void enLang() {
+        assertThat(ms.getMessage("hello", null, Locale.ENGLISH)).isEqualTo("hello");
     }
 }
